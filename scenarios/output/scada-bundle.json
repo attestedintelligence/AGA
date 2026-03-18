@@ -1,0 +1,301 @@
+{
+  "artifact": {
+    "schema_version": "1.0.0",
+    "protocol_version": "1.0.0",
+    "subject_identifier": {
+      "bytes_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125",
+      "metadata_hash": "e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96"
+    },
+    "policy_reference": "e15b396f911f43cc2b5fa8e4fc91692a0c19f4af051586883d7d24a737694419",
+    "policy_version": 3,
+    "sealed_hash": "d58b362afec0cc4735f1bf9a2fd8ae52f1f0a877c94f6ed1f42980a06054fc6a",
+    "seal_salt": "152e0ca8186770ec05820d6b2b28ffcb",
+    "issued_timestamp": "2026-03-13T21:30:42.153Z",
+    "effective_timestamp": "2026-03-13T21:30:42.153Z",
+    "expiration_timestamp": null,
+    "issuer_identifier": "97627b366df6e64ff9a1922fe7ab1c4fcb0a22cb18d52ebedb862bbbf15ecbf0",
+    "enforcement_parameters": {
+      "measurement_cadence_ms": 100,
+      "ttl_seconds": 3600,
+      "enforcement_triggers": [
+        "QUARANTINE",
+        "SAFE_STATE"
+      ],
+      "re_attestation_required": true,
+      "measurement_types": [
+        "EXECUTABLE_IMAGE",
+        "CONFIG_MANIFEST",
+        "MEMORY_REGIONS"
+      ],
+      "behavioral_baseline": {
+        "permitted_tools": [
+          "read_sensors",
+          "adjust_valve",
+          "log_status"
+        ],
+        "forbidden_sequences": [
+          [
+            "adjust_valve",
+            "override_safety"
+          ]
+        ],
+        "rate_limits": {
+          "read_sensors": 100,
+          "adjust_valve": 10,
+          "log_status": 50
+        }
+      }
+    },
+    "disclosure_policy": {
+      "claims_taxonomy": [
+        {
+          "claim_id": "plant.reactor_id",
+          "sensitivity": "S4_CRITICAL",
+          "substitutes": [
+            "plant.facility_region",
+            "plant.sector"
+          ],
+          "inference_risks": [],
+          "permitted_modes": []
+        },
+        {
+          "claim_id": "plant.facility_region",
+          "sensitivity": "S2_MODERATE",
+          "substitutes": [
+            "plant.sector"
+          ],
+          "inference_risks": [],
+          "permitted_modes": [
+            "REVEAL_MIN",
+            "REVEAL_FULL"
+          ]
+        },
+        {
+          "claim_id": "plant.sector",
+          "sensitivity": "S1_LOW",
+          "substitutes": [],
+          "inference_risks": [],
+          "permitted_modes": [
+            "PROOF_ONLY",
+            "REVEAL_MIN",
+            "REVEAL_FULL"
+          ]
+        }
+      ],
+      "substitution_rules": []
+    },
+    "evidence_commitments": [
+      {
+        "commitment": "41955043bdab2bc53ad6904e04b8374d35edc01f8cf037b8b08c62b9b110f491",
+        "salt": "f5bcb428632421db4c42abc52f0a16e9",
+        "label": "code_review"
+      },
+      {
+        "commitment": "e21e73d10572d216bb71b96d4e7e07b457f31930c857eb853292e632122ef36b",
+        "salt": "b1bf44bc1fda7a787c2b44f6da40ebfe",
+        "label": "safety_certification"
+      }
+    ],
+    "signature": "S/qgdIOH8fqqQll0DPqij+zQXj879XHkHC+hHhuw0ktcQ5iqPK1B0VSoD03RIVB8ReReGpTx0W6Xmx03JnNZDw=="
+  },
+  "receipts": [
+    {
+      "receipt_id": "a78bef6e-0a6e-42d8-87a9-1a8c5f263c03",
+      "subject_identifier": {
+        "bytes_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125",
+        "metadata_hash": "e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96"
+      },
+      "artifact_reference": "f5d01424beed29a757ce12ff111c4b20cb526cccc8cb05e4cbaf98b7770c9996",
+      "current_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "sealed_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "drift_detected": false,
+      "drift_description": null,
+      "enforcement_action": null,
+      "measurement_type": "EXECUTABLE_IMAGE",
+      "timestamp": "2026-03-13T21:30:42.170Z",
+      "sequence_number": 0,
+      "previous_leaf_hash": "bd39bf9e516d1116c2691f810cd4679f252debf4892f2433965dc16e3cebc48d",
+      "portal_signature": "HG9S9ZFkVLMjn49vVb+fmjMkOb/sEyiK4ocL+2GdsWLFAamz1/EbSlGpWpdJ1+Kri9HyJIREni3/NEbhzWXrBg=="
+    },
+    {
+      "receipt_id": "eb94130a-59f6-4772-b15b-e22bfb5573f6",
+      "subject_identifier": {
+        "bytes_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125",
+        "metadata_hash": "e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96"
+      },
+      "artifact_reference": "f5d01424beed29a757ce12ff111c4b20cb526cccc8cb05e4cbaf98b7770c9996",
+      "current_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "sealed_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "drift_detected": false,
+      "drift_description": null,
+      "enforcement_action": null,
+      "measurement_type": "EXECUTABLE_IMAGE",
+      "timestamp": "2026-03-13T21:30:42.172Z",
+      "sequence_number": 1,
+      "previous_leaf_hash": "9d0891c0362fbf0efabeebc83305fc272a6d285631c3ae7e286ce6d75b478f4f",
+      "portal_signature": "hT7G4mMCiJog5Y1CGOPxxYgT1lhgbFl28jquazXqwTO1PO7t2gC7UlAd7UJTG9CWlwvM6SPnrShUnyOlVMr1DQ=="
+    },
+    {
+      "receipt_id": "690196ec-693e-4daa-b490-0767b9f5c67c",
+      "subject_identifier": {
+        "bytes_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125",
+        "metadata_hash": "e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96"
+      },
+      "artifact_reference": "f5d01424beed29a757ce12ff111c4b20cb526cccc8cb05e4cbaf98b7770c9996",
+      "current_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "sealed_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "drift_detected": false,
+      "drift_description": null,
+      "enforcement_action": null,
+      "measurement_type": "EXECUTABLE_IMAGE",
+      "timestamp": "2026-03-13T21:30:42.175Z",
+      "sequence_number": 2,
+      "previous_leaf_hash": "f1bd96a52433719ef9420cc145e9c992332be1c84350447e85b0220980100ca7",
+      "portal_signature": "PqoQj9PiToDSjBKPLDiA5uM7HUKHjn7ujTWxiAqzqdxqCUXKD76ftFTj6GdHuLT7o44SeD9hlrk/NIIjzpzUCg=="
+    },
+    {
+      "receipt_id": "64050f17-8286-47b5-a671-3042da55e1a7",
+      "subject_identifier": {
+        "bytes_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125",
+        "metadata_hash": "e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96"
+      },
+      "artifact_reference": "f5d01424beed29a757ce12ff111c4b20cb526cccc8cb05e4cbaf98b7770c9996",
+      "current_hash": "daf39fc149599a4c0ad3a3b0bf6c68a56246bb65a91735e6752fdf16d34090bb||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "sealed_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "drift_detected": true,
+      "drift_description": "Binary modified - SCADA control compromise detected",
+      "enforcement_action": "QUARANTINE",
+      "measurement_type": "EXECUTABLE_IMAGE",
+      "timestamp": "2026-03-13T21:30:42.179Z",
+      "sequence_number": 3,
+      "previous_leaf_hash": "c089c071f502d2cb89c22403ab76483c25e2037066d3b4988f8ade33c3637c81",
+      "portal_signature": "5xTB7wWPWxI45ZwoPx8OwRCoNunLv7QwhpA0Jai4v/aO8TwVymg2ePXDqOobVqCMk7BxaG4WYsd2oGwlLgGiAQ=="
+    },
+    {
+      "receipt_id": "d33a03e0-8625-4a5f-beec-fa7f2c74aaaf",
+      "subject_identifier": {
+        "bytes_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125",
+        "metadata_hash": "e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96"
+      },
+      "artifact_reference": "f5d01424beed29a757ce12ff111c4b20cb526cccc8cb05e4cbaf98b7770c9996",
+      "current_hash": "81cd901214d39df03b3c7d3a541855c3539136cd9590e106d0028c71b57e202d",
+      "sealed_hash": "b97048140d19e21e694ba1c889f22785af92a21591a09f9a2dcedce85c5a4125||e257af3fe837665994a615cae4e3c060383726868dc2b93efcad016797c9cc96",
+      "drift_detected": true,
+      "drift_description": "Forensic capture - quarantine active",
+      "enforcement_action": "QUARANTINE",
+      "measurement_type": "EXECUTABLE_IMAGE",
+      "timestamp": "2026-03-13T21:30:42.181Z",
+      "sequence_number": 4,
+      "previous_leaf_hash": "f793ef74efcc19489fefcdbcf67e8604ddbb7cddbce06954f1a410cbf6d58c90",
+      "portal_signature": "bDSu+5ODY4Dqx1C2y/7sPJGp2Xmx7H8YIwZuQfQkxaR/ZAzlp+ITAGBZiKnvocgrHrpoe1bXoAN25erKdbm9Dw=="
+    }
+  ],
+  "merkle_proofs": [
+    {
+      "leafHash": "9cfb7e791d9bd6edc245a3202c1930a2f33b62c15675fc842eff47c5aac078e6",
+      "leafIndex": 2,
+      "siblings": [
+        {
+          "hash": "d86409c40e6c7723a6401c1ec0ea2418c6cf121b7cf24ac3b0260948457332c6",
+          "position": "right"
+        },
+        {
+          "hash": "952691768ce87f84204ad1e75e7c44f5da7ea7f924e9ba5ffb25781edc1b266f",
+          "position": "left"
+        },
+        {
+          "hash": "e670f0972d9aa9ea44b61e233f896dcc80a3721aaae972b1fdd9a49a484c628f",
+          "position": "right"
+        }
+      ],
+      "root": "c3f7c99d5bb2f84d09455a5adf27e120a95cc6d877efcf3951668b1e0ac5f12e"
+    },
+    {
+      "leafHash": "d86409c40e6c7723a6401c1ec0ea2418c6cf121b7cf24ac3b0260948457332c6",
+      "leafIndex": 3,
+      "siblings": [
+        {
+          "hash": "9cfb7e791d9bd6edc245a3202c1930a2f33b62c15675fc842eff47c5aac078e6",
+          "position": "left"
+        },
+        {
+          "hash": "952691768ce87f84204ad1e75e7c44f5da7ea7f924e9ba5ffb25781edc1b266f",
+          "position": "left"
+        },
+        {
+          "hash": "e670f0972d9aa9ea44b61e233f896dcc80a3721aaae972b1fdd9a49a484c628f",
+          "position": "right"
+        }
+      ],
+      "root": "c3f7c99d5bb2f84d09455a5adf27e120a95cc6d877efcf3951668b1e0ac5f12e"
+    },
+    {
+      "leafHash": "37c9020e40013f864458b8b3638fd4cb1ceb2f813240afbe0331bf53aae70a98",
+      "leafIndex": 4,
+      "siblings": [
+        {
+          "hash": "f2b2c87da12cd8b534ef90d4105e07080cd83a4181913688e4b738c47646ea0c",
+          "position": "right"
+        },
+        {
+          "hash": "6ce486fc894fd5529f2d3886922c870273502a99a05115979a1b6544729c12c8",
+          "position": "right"
+        },
+        {
+          "hash": "5759ac8ba18a3dac263d4412ad43ecf4f60251cad09f482cff893d7c282762ec",
+          "position": "left"
+        }
+      ],
+      "root": "c3f7c99d5bb2f84d09455a5adf27e120a95cc6d877efcf3951668b1e0ac5f12e"
+    },
+    {
+      "leafHash": "f2b2c87da12cd8b534ef90d4105e07080cd83a4181913688e4b738c47646ea0c",
+      "leafIndex": 5,
+      "siblings": [
+        {
+          "hash": "37c9020e40013f864458b8b3638fd4cb1ceb2f813240afbe0331bf53aae70a98",
+          "position": "left"
+        },
+        {
+          "hash": "6ce486fc894fd5529f2d3886922c870273502a99a05115979a1b6544729c12c8",
+          "position": "right"
+        },
+        {
+          "hash": "5759ac8ba18a3dac263d4412ad43ecf4f60251cad09f482cff893d7c282762ec",
+          "position": "left"
+        }
+      ],
+      "root": "c3f7c99d5bb2f84d09455a5adf27e120a95cc6d877efcf3951668b1e0ac5f12e"
+    },
+    {
+      "leafHash": "f4142bdcb7987cbbfdcf5afbfa77e983e41ebff203dad91b5e1295d87be468fa",
+      "leafIndex": 6,
+      "siblings": [
+        {
+          "hash": "350856b5c92b146aed23fe26de0b37211fc0ead28db5a46c46b5b05ad73daa86",
+          "position": "right"
+        },
+        {
+          "hash": "da7a92bd769a74e18b77f485674f06bdd7f15075fac6dbd55d433cbc81241859",
+          "position": "left"
+        },
+        {
+          "hash": "5759ac8ba18a3dac263d4412ad43ecf4f60251cad09f482cff893d7c282762ec",
+          "position": "left"
+        }
+      ],
+      "root": "c3f7c99d5bb2f84d09455a5adf27e120a95cc6d877efcf3951668b1e0ac5f12e"
+    }
+  ],
+  "checkpoint_reference": {
+    "merkle_root": "c3f7c99d5bb2f84d09455a5adf27e120a95cc6d877efcf3951668b1e0ac5f12e",
+    "batch_start_sequence": 0,
+    "batch_end_sequence": 7,
+    "anchor_network": "local",
+    "transaction_id": "local:2049d8a7-9d63-40ad-832b-490c5dc8fe8c",
+    "timestamp": "2026-03-13T21:30:42.194Z"
+  },
+  "public_key": "16a79df48d8afa2372f012b0b0a9ddc6b0f9752e9e401880b71cc6cbd102f9fb",
+  "verification_tier": "GOLD",
+  "bundle_signature": "o2b2e9KCgl9MLLYM7w1FY4MMTwPW1/6e9bGpqZhmMVmkG43u0oYKs0lguznz8SZlzHS61N9UgBb2QAOpxN+oCw=="
+}
