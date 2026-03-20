@@ -13,7 +13,7 @@ npm test
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - npm 9+
 
 ### Running Tests
@@ -30,7 +30,7 @@ npm run test:watch          # Watch mode
 src/               # Core AGA implementation
 independent-verifier/  # Standalone verification tool
 scenarios/         # Deployment scenario implementations
-tests/             # Test suite (112+ tests)
+tests/             # Test suite (94 tests)
 scripts/           # Utility scripts
 ```
 
@@ -66,7 +66,7 @@ Update Evidence Bundle schema to v1.1
 - All new features must include tests
 - Cryptographic operations require both positive and negative test cases
 - Evidence Bundle tests must verify offline verification capability
-- Maintain or improve the existing 112+ test count
+- Maintain or improve the existing test count
 
 ### Areas of Contribution
 

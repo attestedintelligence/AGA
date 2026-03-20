@@ -5,7 +5,7 @@ Cryptographic runtime governance for AI agents and autonomous systems.
 [![CI](https://github.com/attestedintelligence/AGA/actions/workflows/ci.yml/badge.svg)](https://github.com/attestedintelligence/AGA/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@attested-intelligence/aga-mcp-server)](https://www.npmjs.com/package/@attested-intelligence/aga-mcp-server)
 [![PyPI](https://img.shields.io/pypi/v/aga-governance)](https://pypi.org/project/aga-governance/)
-[![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## What This Does
 
@@ -112,9 +112,9 @@ npm test    # 94 tests
 - **Cross-language test vectors:** 37 vectors across 9 categories
 
 ```bash
-npm test                    # TypeScript tests
-pip install -e ".[dev]"     # Python dev install (from aga-python/)
-pytest                      # Python tests
+npm test                    # TypeScript gateway tests (94)
+pip install aga-governance  # Python SDK from PyPI
+python -m aga verify evidence-bundle.json  # CLI verification
 ```
 
 ## Project Structure
