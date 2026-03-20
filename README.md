@@ -4,126 +4,137 @@ Cryptographic runtime governance for AI agents and autonomous systems.
 
 [![CI](https://github.com/attestedintelligence/AGA/actions/workflows/ci.yml/badge.svg)](https://github.com/attestedintelligence/AGA/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@attested-intelligence/aga-mcp-server)](https://www.npmjs.com/package/@attested-intelligence/aga-mcp-server)
+[![PyPI](https://img.shields.io/pypi/v/aga-governance)](https://pypi.org/project/aga-governance/)
 [![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](LICENSE)
 
 ## What This Does
 
-AGA generates sealed, cryptographically signed Policy Artifacts that bind subject identity to authorized behavior and enforce that binding continuously at runtime. A two-process Portal architecture holds all cryptographic keys while the governed agent holds none - the agent cannot self-authorize, bypass enforcement, or forge receipts.
+Every tool call an AI agent makes passes through the AGA gateway. Each call is evaluated against policy, and the decision (PERMITTED or DENIED) is recorded as a signed, hash-linked governance receipt. Receipts are collected into evidence bundles that any third party can verify offline using standard cryptography.
 
-**Seal. Enforce. Prove.**
-
-## Architecture
-
-```
-Policy Author          Portal (Keys)          Subject (Agent)
-     |                     |                       |
-[Seal Artifact]  ------>  [Store Reference]        |
-     |                     |                       |
-     |              [Continuous Measurement] <---- [Runtime State]
-     |                     |                       |
-     |              [Drift Detected?]              |
-     |                  /     \                    |
-     |            Yes /       \ No                 |
-     |               /         \                   |
-     |     [Enforce Action]  [Append Receipt]      |
-     |            |              |                 |
-     |     [Signed Receipt]     |                 |
-     |            |              |                 |
-     |     [Continuity Chain] <-+                 |
-     |            |                               |
-     |     [Evidence Bundle]                      |
-     |            |                               |
-     v     [Offline Verify]                       v
-```
-
-### Core Operations
-
-- **Seal:** Attest subject state, compute sealed hash (SHA-256, no delimiters), sign with Ed25519 over RFC 8785 canonical JSON
-- **Enforce:** Portal measures runtime state against sealed reference, executes enforcement on drift (7 graduated actions including phantom execution for forensic capture)
-- **Prove:** Evidence Bundles with Merkle inclusion proofs enable offline verification by any third party using only standard cryptographic libraries
+**Record. Prove. Verify.**
 
 ## Quick Start
 
-```bash
-git clone https://github.com/attestedintelligence/AGA.git
-cd AGA
-npm install
-npm test
-```
-
-### Run the Independent Verifier
+### Verify an evidence bundle (3 commands)
 
 ```bash
-node independent-verifier/verify.js aga-evidence/evidence-bundle.json
+pip install aga-governance
+curl -s https://aga-mcp-gateway.attestedintelligence.workers.dev/bundle -o evidence-bundle.json
+python -m aga verify evidence-bundle.json
 ```
 
-### Generate an Evidence Bundle
+### Or verify in your browser
 
-```bash
-node scripts/generate-evidence-bundle.mjs
+Go to [attestedintelligence.com/verify](https://attestedintelligence.com/verify) and click "Run Verification." Zero installs required.
+
+## How It Works
+
+```
+AI Agent                  AGA Gateway                    Verifier
+   |                          |                              |
+   |-- tools/call ----------->|                              |
+   |                    [Evaluate Policy]                    |
+   |                    [Sign Receipt]                       |
+   |                    [Chain to Previous]                  |
+   |<-- PERMITTED/DENIED -----|                              |
+   |                          |                              |
+   |                    [Export Bundle]                       |
+   |                          |--------- evidence.json ----->|
+   |                          |                  [Verify Signatures]
+   |                          |                  [Verify Chain]
+   |                          |                  [Verify Merkle Tree]
+   |                          |                  [PASS / FAIL]
 ```
 
-## Deployment Scenarios
+## Verification (5 steps)
 
-| Scenario | Description | Key Feature |
-|----------|-------------|-------------|
-| Air-Gapped Audit | Portable evidence bundles for DDIL environments | No network connectivity required |
-| SCADA/ICS Enforcement | Real-time integrity monitoring for industrial control | O(1) receipt generation, deterministic bounds |
-| Autonomous Safe-State | Automatic transition to safe profiles on drift | 7 graduated enforcement actions |
-| Model Deployment Gate | Policy-enforced model release to production | Integrity verification before execution |
-| Cloud Governance | Cryptographic governance for cloud infrastructure | Evidence isolation, multi-tenant support |
-| SOC/IR Evidence | Incident response bundles with chain-of-custody | Forensic-grade audit trails |
+1. **Algorithm Check** - Bundle declares Ed25519-SHA256-JCS, fail closed on anything else
+2. **Receipt Signatures** - Ed25519 over RFC 8785 canonical JSON (signature field excluded)
+3. **Chain Integrity** - Each receipt's `previous_receipt_hash` = SHA-256 of the preceding receipt
+4. **Merkle Proofs** - Walk siblings/directions to root, compare against bundle root
+5. **Bundle Consistency** - Proof count = receipt count, leaf hashes match receipt hashes
 
 ## Cryptographic Primitives
 
 | Primitive | Purpose |
 |-----------|---------|
-| Ed25519 | Digital signatures (artifact sealing, receipt signing) |
-| SHA-256 | Content integrity (sealed hash computation) |
-| BLAKE2b-256 | Artifact fingerprinting |
-| RFC 8785 (JCS) | Canonical JSON serialization |
-| HKDF-SHA256 | Key derivation |
-| Merkle Trees | Checkpoint anchoring to immutable storage |
+| Ed25519 | Receipt signatures |
+| SHA-256 | Hash chaining, Merkle trees, leaf computation |
+| RFC 8785 (JCS) | Canonical JSON for deterministic signing |
+| Merkle Trees | Binding all receipts to a single verifiable root |
 
-## MCP Server
+## Live Gateway
 
-The AGA MCP Server provides AI tool integration for governance operations:
+The demo gateway is deployed on Cloudflare Workers:
 
 ```bash
-npm install -g @attested-intelligence/aga-mcp-server
+# Check status
+curl https://aga-mcp-gateway.attestedintelligence.workers.dev/health
+
+# Export evidence bundle
+curl https://aga-mcp-gateway.attestedintelligence.workers.dev/bundle -o evidence-bundle.json
 ```
 
-Enables AI agents to seal artifacts, verify evidence bundles, and query governance state through the Model Context Protocol.
+## Python SDK
+
+```bash
+pip install aga-governance
+```
+
+```python
+from aga import AgentSession
+
+with AgentSession(gateway_id="my-gateway") as session:
+    session.record_tool_call(
+        tool_name="search_web",
+        decision="PERMITTED",
+        reason="tool in allowlist",
+        request_id="req-1",
+    )
+    bundle = session.export_bundle()
+    result = session.verify()
+    assert result["overall_valid"]
+```
+
+## TypeScript MCP Gateway
+
+```bash
+npm install
+npm test    # 94 tests
+```
 
 ## Test Suite
 
-112+ automated tests covering the full AGA lifecycle:
+231+ automated tests across TypeScript and Python:
+
+- **TypeScript MCP Gateway:** 94 tests (vitest)
+- **Python SDK:** 137 tests (pytest)
+- **Cross-language test vectors:** 37 vectors across 9 categories
 
 ```bash
-npm test                    # Run all tests
-npm run test:coverage       # Coverage report
+npm test                    # TypeScript tests
+pip install -e ".[dev]"     # Python dev install (from aga-python/)
+pytest                      # Python tests
 ```
 
 ## Project Structure
 
 ```
-src/               # Core AGA implementation
-  sealer/          # Artifact sealing and signing
-  portal/          # Runtime enforcement boundary
-  chain/           # Continuity chain and receipts
-  bundle/          # Evidence Bundle generation
-  verifier/        # Programmatic verification
-independent-verifier/  # Standalone verification tool
-scenarios/         # Deployment scenario implementations
-tests/             # Test suite (112+ tests)
-scripts/           # Utility scripts
+src/                       # TypeScript MCP gateway
+independent-verifier/      # Standalone verification tool
+tests/                     # TypeScript test suite
+scenarios/                 # Deployment scenario examples
+scripts/                   # Utility scripts
 ```
 
 ## Links
 
 - [Website](https://attestedintelligence.com)
+- [Live Verifier](https://attestedintelligence.com/verify)
+- [Developer Resources](https://attestedintelligence.com/evaluate)
 - [Technology](https://attestedintelligence.com/technology)
-- [Diligence Materials](https://attestedintelligence.com/diligence)
+- [Trust and Scope](https://attestedintelligence.com/trust)
+- [Python SDK (PyPI)](https://pypi.org/project/aga-governance/)
 - [MCP Server (npm)](https://www.npmjs.com/package/@attested-intelligence/aga-mcp-server)
 
 ## Security
