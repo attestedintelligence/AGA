@@ -147,7 +147,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
 
 ## License
 
-[BUSL-1.1](LICENSE) - Business Source License 1.1
+[MIT](LICENSE)
 
 ---
 
